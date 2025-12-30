@@ -25,7 +25,7 @@ components.html(
     --gold:#D4AF37;
     --ice:#F4F6FF;
     --accent:#00d9ff;
-    --pink:#ff4d6d;
+    --rose:#ff4d6d;
   }
   *{box-sizing:border-box;}
   html,body{height:100%; margin:0; overflow:hidden;}
@@ -92,22 +92,27 @@ components.html(
     100%{ transform: translateY(0) rotate(360deg) scale(1); }
   }
 
-  /* HUD */
+  /* Layout: ocupar a tela inteira de verdade */
   .wrap{
     position:relative;
     z-index:10;
     height:100vh;
-    display:grid;
-    place-items:center;
-    padding:26px;
+    padding: 22px;
+    display:flex;
+    align-items: stretch;
+    justify-content: center;
   }
 
-  .card{
-    width:min(980px, 92vw);
-    background: rgba(10, 11, 18, 0.62);
+  .panel{
+    width: min(1400px, 96vw);
+    height: calc(100vh - 44px);
+    display:flex;
+    flex-direction: column;
+    gap: 18px;
+    background: rgba(10, 11, 18, 0.55);
     border: 1px solid rgba(244,246,255,0.16);
-    border-radius: 22px;
-    padding: 54px 42px;
+    border-radius: 26px;
+    padding: 28px 28px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     box-shadow: 0 24px 70px rgba(0,0,0,0.68);
@@ -115,7 +120,7 @@ components.html(
     overflow:hidden;
   }
 
-  .card:before{
+  .panel:before{
     content:"";
     position:absolute;
     inset:-2px;
@@ -130,7 +135,14 @@ components.html(
     animation: halo 8s linear infinite;
   }
   @keyframes halo{ to{ transform: rotate(360deg);} }
-  .card>*{position:relative; z-index:1;}
+  .panel>*{position:relative; z-index:1;}
+
+  .top{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items:center;
+  }
 
   .kicker{
     text-align:center;
@@ -138,13 +150,12 @@ components.html(
     text-transform:uppercase;
     font-size:12px;
     color: rgba(212,175,55,0.90);
-    margin-bottom: 14px;
   }
 
   .title{
     font-family: Playfair Display, serif;
-    font-size: 58px;
-    line-height: 1.05;
+    font-size: 64px;
+    line-height: 1.02;
     text-align:center;
     margin:0;
     background: linear-gradient(135deg, #ffffff 0%, #ffe29a 35%, #ffd700 65%, #ffffff 100%);
@@ -156,26 +167,34 @@ components.html(
 
   .sub{
     text-align:center;
-    margin-top: 12px;
     color: rgba(244,246,255,0.75);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     font-size: 13px;
   }
 
   .divider{
     height:1px;
-    margin: 26px 0;
+    width: min(860px, 92vw);
     background: linear-gradient(90deg, transparent, rgba(212,175,55,0.65), transparent);
+    margin-top: 6px;
+  }
+
+  .mid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: start;
+    flex: 1;
+    min-height: 0;
   }
 
   .chat{
-    width:min(720px, 92vw);
-    margin: 0 auto;
+    width: 100%;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(244,246,255,0.12);
-    border-radius: 16px;
-    padding: 20px 20px;
+    border-radius: 18px;
+    padding: 18px 18px;
   }
   .line{
     font-size: 16px;
@@ -185,15 +204,14 @@ components.html(
   .line strong{ color: rgba(0,217,255,0.92); font-weight: 600; }
   .tease{ margin-top:10px; font-size: 13px; color: rgba(244,246,255,0.60); }
 
-  /* Área do botão pegadinha */
+  /* Arena maior, para usar a tela inteira */
   .arena{
     position: relative;
-    width: min(820px, 92vw);
-    height: 220px;
-    margin: 26px auto 0;
-    border-radius: 18px;
+    width: 100%;
+    height: min(420px, 44vh);
+    border-radius: 20px;
     border: 1px dashed rgba(244,246,255,0.18);
-    background: radial-gradient(500px circle at 50% 50%, rgba(0,217,255,0.06), transparent 60%);
+    background: radial-gradient(700px circle at 50% 50%, rgba(0,217,255,0.06), transparent 60%);
     overflow: hidden;
   }
 
@@ -201,7 +219,7 @@ components.html(
     appearance:none;
     border-radius: 999px;
     padding: 16px 20px;
-    min-width: 240px;
+    min-width: 260px;
     font-family: Inter, sans-serif;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -233,30 +251,28 @@ components.html(
     border: none;
     color: #0a0a0f;
     font-family: Playfair Display, serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 900;
     letter-spacing: 0.18em;
-    min-width: 520px;
-    padding: 22px 28px;
+    min-width: min(720px, 86vw);
+    padding: 24px 28px;
     box-shadow: 0 22px 60px rgba(255,215,0,0.35);
   }
   .btn.big:hover{ transform: translate(-50%, -50%) scale(1.03); box-shadow: 0 26px 70px rgba(255,215,0,0.45); }
 
-  /* Mensagem final */
   .final{
     display:none;
-    margin: 18px auto 0;
-    width: min(780px, 92vw);
+    width: 100%;
     text-align:center;
-    padding: 26px 22px;
+    padding: 18px 18px;
     border-radius: 18px;
-    background: rgba(10,11,18,0.55);
+    background: rgba(10,11,18,0.42);
     border: 1px solid rgba(212,175,55,0.32);
   }
   .final h2{
     font-family: Playfair Display, serif;
     font-size: 36px;
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     color: rgba(212,175,55,0.95);
   }
   .final p{
@@ -278,6 +294,11 @@ components.html(
     z-index: 20;
     pointer-events:none;
   }
+
+  @media (max-width: 620px){
+    .title{ font-size: 52px; }
+    .btn.big{ font-size: 18px; letter-spacing: 0.12em; }
+  }
 </style>
 </head>
 <body>
@@ -287,29 +308,34 @@ components.html(
   <div class="cakes" id="cakes"></div>
 
   <div class="wrap">
-    <div class="card" role="article" aria-label="Cartão de aniversário">
-      <div class="kicker">Pegadinha • Versão Família</div>
-      <h1 class="title">Lis</h1>
-      <div class="sub">Cunhada oficial (da esposa) • Hoje você manda</div>
-      <div class="divider"></div>
+    <div class="panel" role="article" aria-label="Cartão de aniversário">
 
-      <div class="chat">
-        <div class="line"><strong>Mensagem:</strong> Fui autorizado a entregar seu presente… mas antes precisamos validar se você tem reflexo de campeã 😄</div>
-        <div class="tease" id="tease">Missão: clique no botão. (Aviso: ele é ligeiro.)</div>
+      <div class="top">
+        <div class="kicker">Pegadinha • Edição Especial</div>
+        <h1 class="title">Lis</h1>
+        <div class="sub">Hoje é o seu dia — e a missão é simples 😄</div>
+        <div class="divider"></div>
       </div>
 
-      <div class="arena" id="arena">
-        <button class="btn prank" id="prankBtn">🎁 Resgatar Presente</button>
-        <button class="btn big" id="bigBtn">AGORA PODE APERTAR 😌</button>
-      </div>
+      <div class="mid">
+        <div class="chat">
+          <div class="line"><strong>Mensagem:</strong> Existe um presente pra você… mas primeiro precisamos confirmar se você tem reflexo de campeã.</div>
+          <div class="tease" id="tease">Missão: clique no botão. (Aviso: ele é ligeiro.)</div>
+        </div>
 
-      <div class="final" id="finalMsg">
-        <h2>Feliz Aniversário, Lis! 🎉</h2>
-        <p>
-          Que seu novo ciclo seja leve, próspero e cheio de motivos para sorrir. 
-          Obrigado por fazer parte da família — e por aguentar as nossas “brincadeiras” 😄<br><br>
-          Com carinho, do cunhado.
-        </p>
+        <div class="arena" id="arena">
+          <button class="btn prank" id="prankBtn">🎁 Resgatar Presente</button>
+          <button class="btn big" id="bigBtn">AGORA PODE APERTAR 😌</button>
+        </div>
+
+        <div class="final" id="finalMsg">
+          <h2>Feliz Aniversário, Lis! 🎉</h2>
+          <p>
+            Que seu novo ciclo seja leve, próspero e cheio de motivos para sorrir. 
+            Que nunca falte saúde, paz e gente querida por perto.<br><br>
+            <strong>Lucas Duarte</strong>
+          </p>
+        </div>
       </div>
 
     </div>
@@ -376,7 +402,6 @@ components.html(
 
   function drawStars(){
     for(const s of stars){
-      // micro cintilação
       const tw = (Math.random()-0.5)*0.03;
       s.a = Math.max(0.10, Math.min(0.75, s.a + tw));
       ctx.fillStyle = `rgba(244,246,255,${s.a})`;
@@ -438,7 +463,6 @@ components.html(
   let autoTimer = 0;
 
   function tick(){
-    // persistência cinematográfica
     ctx.fillStyle = 'rgba(10, 11, 18, 0.22)';
     ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
 
@@ -446,7 +470,6 @@ components.html(
     drawTrails();
     drawParticles();
 
-    // fogos automáticos: suaves no começo, intensos após revelar mensagem
     autoTimer++;
     const every = celebrateMode ? 22 : 70;
     if(autoTimer % every === 0){
@@ -458,7 +481,6 @@ components.html(
 
     requestAnimationFrame(tick);
   }
-  // inicia com fundo limpo
   ctx.fillStyle = 'rgba(10, 11, 18, 1)';
   ctx.fillRect(0,0,window.innerWidth, window.innerHeight);
   requestAnimationFrame(tick);
@@ -492,14 +514,13 @@ components.html(
     const btnW = b.width;
     const btnH = b.height;
 
-    // nova posição aleatória, mas longe do mouse
     let x, y, tries = 0;
     do {
       x = rect.left + 18 + Math.random()*(rect.width - btnW - 36);
       y = rect.top  + 18 + Math.random()*(rect.height - btnH - 36);
       tries++;
       if(tries > 16) break;
-    } while (Math.hypot((x+btnW/2)-mouseX, (y+btnH/2)-mouseY) < 150);
+    } while (Math.hypot((x+btnW/2)-mouseX, (y+btnH/2)-mouseY) < 160);
 
     const left = clamp(x - rect.left, 10, rect.width - btnW - 10);
     const top  = clamp(y - rect.top , 10, rect.height - btnH - 10);
@@ -509,7 +530,6 @@ components.html(
     prankBtn.style.transform = 'none';
   }
 
-  // inicial: central
   function centerPrank(){
     prankBtn.style.left = '50%';
     prankBtn.style.top = '54%';
@@ -525,13 +545,13 @@ components.html(
     const by = b.top + b.height/2;
     const d = Math.hypot(bx - e.clientX, by - e.clientY);
 
-    if(d < 140){
+    if(d < 150){
       dodges++;
       tease.textContent = roasts[dodges % roasts.length] + ` (Tentativas: ${dodges})`;
       moveButtonAway(e.clientX, e.clientY);
 
-      // efeito extra: fogos discretos ao “desviar”
-      launchFirework(rand(120, window.innerWidth-120), rand(90, window.innerHeight*0.45), rand(40,55));
+      // fogos discretos ao “desviar”
+      launchFirework(rand(140, window.innerWidth-140), rand(90, window.innerHeight*0.45), rand(40,55));
 
       if(dodges >= DODGE_TARGET){
         prankBtn.style.display = 'none';
@@ -541,7 +561,6 @@ components.html(
     }
   });
 
-  // se conseguir clicar no botão fujão antes do tempo, conta como tentativa “extra”
   prankBtn.addEventListener('click', () => {
     dodges += 2;
     tease.textContent = 'Eita! Quase pegou… mas não valeu 😄';
@@ -562,7 +581,7 @@ components.html(
     confetti.style.display = 'block';
     confetti.innerHTML = '';
     const cols = ['#FFD700', '#FFA500', '#00d9ff', '#ff4d6d', '#7c3aed', '#34d399'];
-    for(let i=0;i<90;i++){
+    for(let i=0;i<110;i++){
       const el = document.createElement('i');
       el.style.left = Math.random()*100 + '%';
       el.style.background = cols[Math.floor(Math.random()*cols.length)];
@@ -578,7 +597,7 @@ components.html(
     cakes.style.display = 'block';
     cakes.innerHTML = '';
     const emojis = ['🎂','🍰','🧁','🍩'];
-    for(let i=0;i<14;i++){
+    for(let i=0;i<16;i++){
       const el = document.createElement('div');
       el.className = 'cake';
       el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
@@ -595,7 +614,7 @@ components.html(
     finalMsg.style.display = 'block';
     startConfetti();
     startCakes();
-    celebrateMode = true; // aumenta fogos automáticos
+    celebrateMode = true;
 
     // sequência coreografada
     setTimeout(() => launchFirework(window.innerWidth*0.50, window.innerHeight*0.28, 45), 120);
