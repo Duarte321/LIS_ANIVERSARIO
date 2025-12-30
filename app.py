@@ -3,131 +3,176 @@ import time
 
 # Configuração da Página
 st.set_page_config(
-    page_title="Parabéns da Roça pra Lis! 🤠",
-    page_icon="🌻",
+    page_title="Parabéns Lis! 🤠",
+    page_icon="🌽",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Estilização CSS Personalizada (Tema Country/Rústico)
+# CSS para Efeitos 3D e Cores Vibrantes (Sem Rosa!)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
-
-    /* Fundo estilo madeira/rústico */
+    /* Fundo vibrante (Verde Roça Tech) */
     .stApp {
-        background-color: #f4e1d2;
-        background-image: radial-gradient(#d7ccc8 1px, transparent 1px), radial-gradient(#d7ccc8 1px, transparent 1px);
-        background-size: 20px 20px;
-        background-position: 0 0, 10px 10px;
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+        color: white;
     }
     
-    /* Título Principal */
-    .title-text {
-        font-family: 'Rye', serif;
-        font-size: 50px !important;
-        color: #5D4037; /* Marrom café */
+    /* Título 3D */
+    .title-3d {
+        font-family: 'Arial Black', sans-serif;
+        font-size: 60px;
+        color: #FFC107; /* Amarelo Ouro */
         text-align: center;
-        text-shadow: 2px 2px 0px #D7CCC8;
-        margin-bottom: 20px;
-    }
-    
-    /* Cartão de Mensagem (estilo papel antigo) */
-    .message-card {
-        background-color: #fff8e1;
-        border: 2px dashed #8d6e63;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
-        text-align: center;
-        font-size: 20px;
-        color: #4e342e;
-        font-family: 'Courier Prime', monospace;
+        text-transform: uppercase;
+        transform: perspective(500px) rotateX(10deg);
+        text-shadow: 
+            0 1px 0 #c69c06,
+            0 2px 0 #b68f05,
+            0 3px 0 #a58204,
+            0 4px 0 #947503,
+            0 5px 0 #836702,
+            0 6px 1px rgba(0,0,0,.1),
+            0 0 5px rgba(0,0,0,.1),
+            0 1px 3px rgba(0,0,0,.3),
+            0 3px 5px rgba(0,0,0,.2),
+            0 5px 10px rgba(0,0,0,.25),
+            0 10px 10px rgba(0,0,0,.2),
+            0 20px 20px rgba(0,0,0,.15);
+        animation: float 3s ease-in-out infinite;
     }
 
-    /* Botão Personalizado (estilo couro/madeira) */
-    .stButton>button {
-        background-color: #795548;
-        color: #fff8e1;
-        border: 2px solid #3e2723;
-        border-radius: 8px;
-        padding: 15px 30px;
-        font-family: 'Rye', serif;
-        font-size: 22px;
+    /* Animação de Flutuar */
+    @keyframes float {
+        0% { transform: perspective(500px) rotateX(10deg) translateY(0px); }
+        50% { transform: perspective(500px) rotateX(10deg) translateY(-15px); }
+        100% { transform: perspective(500px) rotateX(10deg) translateY(0px); }
+    }
+
+    /* Cubo 3D (CSS Puro) */
+    .scene {
+        width: 200px;
+        height: 200px;
+        perspective: 600px;
+        margin: 50px auto;
+    }
+    .cube {
         width: 100%;
-        transition: transform 0.2s;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: spin 5s infinite linear;
     }
-    .stButton>button:hover {
-        background-color: #5d4037;
-        color: white;
-        transform: scale(1.02);
-        border-color: #fff;
-    }
-    
-    /* Estilo das Abas */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        background-color: #efebe9;
-        border-radius: 4px;
-        color: #5d4037;
+    .cube-face {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 2px solid black;
+        line-height: 200px;
+        font-size: 80px;
         font-weight: bold;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: #8d6e63;
         color: white;
+        text-align: center;
+        opacity: 0.9;
+    }
+    .front  { background: hsla(  0, 100%, 50%, 0.7); transform: rotateY(  0deg) translateZ(100px); }
+    .right  { background: hsla( 60, 100%, 50%, 0.7); transform: rotateY( 90deg) translateZ(100px); }
+    .back   { background: hsla(120, 100%, 50%, 0.7); transform: rotateY(180deg) translateZ(100px); }
+    .left   { background: hsla(180, 100%, 50%, 0.7); transform: rotateY(-90deg) translateZ(100px); }
+    .top    { background: hsla(240, 100%, 50%, 0.7); transform: rotateX( 90deg) translateZ(100px); }
+    .bottom { background: hsla(300, 100%, 50%, 0.7); transform: rotateX(-90deg) translateZ(100px); }
+
+    @keyframes spin {
+        0% { transform: rotateX(0deg) rotateY(0deg); }
+        100% { transform: rotateX(360deg) rotateY(360deg); }
+    }
+
+    /* Cartão da Mensagem */
+    .funny-card {
+        background-color: #FFF3E0; /* Laranja clarinho */
+        color: #E65100;
+        border-radius: 15px;
+        padding: 20px;
+        border: 4px solid #FF9800;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        box-shadow: 10px 10px 0px #3E2723; /* Sombra dura estilo cartoon */
+        transform: rotate(-1deg);
+        transition: transform 0.3s;
+    }
+    .funny-card:hover {
+        transform: rotate(1deg) scale(1.02);
+    }
+
+    /* Botãozão */
+    .stButton>button {
+        background-color: #FF5722;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 10px;
+        border: 4px solid #BF360C;
+        box-shadow: 0 9px #999;
+    }
+    .stButton>button:active {
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Cabeçalho
-st.markdown('<p class="title-text">🤠 Feliz Aniversário, Lis! 🌻</p>', unsafe_allow_html=True)
+# Título 3D Flutuante
+st.markdown('<div class="title-3d">FELIZ NIVER<br>LIS! 🚜</div>', unsafe_allow_html=True)
 
-# Imagem de Capa (Tema Country/Festa)
-# Dica: Substitua por uma foto dela com chapéu ou na fazenda!
-st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExam95OHJ0ZGd6ZmF4Z3F6Z3F6Z3F6Z3F6Z3F6Z3F6Z3F6ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LfpjDCLnTeHYA/giphy.gif", caption="Hoje o dia é todo seu, cowgirl!", use_column_width=True)
+# Cubo 3D Giratório
+st.markdown("""
+<div class="scene">
+  <div class="cube">
+    <div class="cube-face front">🤠</div>
+    <div class="cube-face back">🌽</div>
+    <div class="cube-face right">🎉</div>
+    <div class="cube-face left">🎂</div>
+    <div class="cube-face top">🐮</div>
+    <div class="cube-face bottom">🔥</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
-st.write("") 
+st.write("")
 
-# Conteúdo Interativo
-tab1, tab2, tab3 = st.tabs(["📝 Prosa Boa", "🎁 Presente", "🎸 Modão Sertanejo"])
+# Abas simplificadas (Sem playlist, sem vídeo)
+tab1, tab2 = st.tabs(["😂 A Realidade", "🎁 O Presente"])
 
 with tab1:
     st.write("")
     st.markdown("""
-    <div class="message-card">
-    <b>Minha querida Lis,</b><br><br>
-    Hoje a porteira da felicidade se abriu de par em par pra você! 🌾<br><br>
-    Que seu novo ano seja firme igual palanque de aroeira e doce igual compota de vó.
-    Que não falte café quente, conversa boa e gente de verdade ao seu lado.<br><br>
-    Você tem a força da terra e o brilho do sol. 
-    <b>Parabéns por ser essa mulher de fibra!</b><br><br>
-    🤠 ❤️ 🐎
+    <div class="funny-card">
+    Ô Lis, parabéns!!! 👏👏<br><br>
+    Fiquei sabendo que você não tá ficando velha...<br>
+    Você só tá virando um clássico sertanejo! Quanto mais o tempo passa, mais o povo gosta! 📻<br><br>
+    Dizem que a sabedoria vem com a idade...<br>
+    Pelo jeito, esse ano você já ganha o prêmio Nobel da Roça!<br><br>
+    Aproveita que hoje pode tudo: comer bolo, pão de queijo e até culpar a idade se esquecer de pagar alguma conta.<br><br>
+    <b>Tudo de bão pro cê!</b> 
     </div>
     """, unsafe_allow_html=True)
 
 with tab2:
     st.write("")
-    st.markdown("<h3 style='text-align: center; color: #5D4037; font-family: Rye;'>Segura peão, que tem surpresa!</h3>", unsafe_allow_html=True)
-    if st.button("💥 SOLTAR OS FOGUETE 💥"):
+    st.markdown("<h3 style='text-align: center; color: #FFC107;'>CUIDADO: Efeitos de alta tecnologia da roça abaixo</h3>", unsafe_allow_html=True)
+    
+    if st.button("NÃO CLIQUE AQUI 🚫"):
+        # Efeito Caótico Divertido
         st.balloons()
-        st.success("🎉 ÊTA LIS! MUITA SAÚDE, PAZ E ALEGRIA! 🎉")
+        time.sleep(0.5)
+        st.error("EU FALEI PRA NÃO CLICAR! AGORA TOMA ESSE PARABÉNS!")
         time.sleep(1)
+        st.success("BRINCADEIRA! 🤣 FELICIDADES MIL!")
         st.markdown("""
-        <div style='text-align: center; font-size: 24px; color: #4e342e; margin-top: 20px;'>
-        🐎 🐄 🚜 🌽 🐓<br>
-        <i>A fazenda inteira tá em festa pro cê!</i>
-        </div>
+        <h1 style='text-align: center; font-size: 80px;'>🐄💨</h1>
+        <p style='text-align: center;'>A vaca foi pro brejo... de alegria!</p>
         """, unsafe_allow_html=True)
-
-with tab3:
-    st.write("")
-    st.info("Aumenta o som que agora é hora do modão apaixonado!")
-    # Playlist Sertanejo Raiz/Modão (Link do Spotify)
-    st.components.v1.iframe("https://open.spotify.com/embed/playlist/37i9dQZF1DX0f93dbd2b9o?utm_source=generator", height=380)
 
 # Rodapé
 st.write("---")
-st.markdown("<div style='text-align: center; color: #6d4c41;'>Feito com carinho e Python 🐍🤠</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; font-size: 12px;'>Tecnologia Agro-Espacial 🚀🌽</div>", unsafe_allow_html=True)
