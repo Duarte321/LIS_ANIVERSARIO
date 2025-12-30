@@ -1,291 +1,277 @@
 import streamlit as st
 import time
 
-# Configuração da Página
 st.set_page_config(
-    page_title="Para Lis ♡",
-    page_icon="🌸",
+    page_title="Lis • Art Déco Card",
+    page_icon="✨",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
 
-# --- CSS TEMA VINTAGE BOTANICAL ---
-st.markdown("""
+# Estado
+if "opened" not in st.session_state:
+    st.session_state.opened = False
+
+# Tema Art Déco (Premium, sem vídeo)
+st.markdown(
+    """
 <style>
-    /* Importando Fontes */
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap');
 
-    /* Ocultar elementos Streamlit */
-    .stAppHeader, .stToolbar, #MainMenu, footer {
-        visibility: hidden;
-    }
+  /* Limpa elementos */
+  .stAppHeader, .stToolbar, #MainMenu, footer { visibility: hidden; }
 
-    /* Fundo Papel Antigo */
-    .stApp {
-        background-color: #f5f1e8;
-        background-image: 
-            repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px),
-            repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px);
-    }
+  /* Fundo Art Déco (padrão geométrico animado) */
+  .stApp {
+    background:
+      radial-gradient(1200px circle at 20% 10%, rgba(212,175,55,0.14), transparent 55%),
+      radial-gradient(900px circle at 80% 30%, rgba(212,175,55,0.10), transparent 50%),
+      linear-gradient(180deg, #07070a 0%, #0c0c12 100%);
+    color: #f4f4f6;
+  }
 
-    .block-container {
-        padding: 3rem 1rem;
-        max-width: 750px;
-    }
+  .deco-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(212,175,55,0.06) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(212,175,55,0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(600px circle at 50% 35%, rgba(0,0,0,1), rgba(0,0,0,0));
+    animation: gridFloat 10s ease-in-out infinite;
+    opacity: 0.65;
+  }
 
-    /* Container Principal (Cartão Postal) */
-    .postcard-container {
-        background: linear-gradient(135deg, #fdfbf7 0%, #f5f1e8 100%);
-        border: 12px solid #8b9d83;
-        border-radius: 3px;
-        padding: 60px 50px;
-        box-shadow: 
-            0 10px 30px rgba(0,0,0,0.15),
-            inset 0 0 100px rgba(139, 157, 131, 0.05);
-        position: relative;
-        margin: 40px auto;
-    }
+  @keyframes gridFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
 
-    /* Selo Vintage (Canto Superior Direito) */
-    .stamp {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 80px;
-        height: 100px;
-        background: linear-gradient(135deg, #d4a5a5 0%, #b88b8b 100%);
-        border: 3px dashed #5d4e37;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40px;
-        transform: rotate(15deg);
-        opacity: 0.9;
-    }
+  /* Moldura Art Déco */
+  .frame {
+    border: 1px solid rgba(212,175,55,0.35);
+    border-radius: 18px;
+    padding: 26px;
+    background: rgba(16,16,22,0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+    position: relative;
+    overflow: hidden;
+  }
 
-    /* Lacre de Cera */
-    .wax-seal {
-        position: absolute;
-        bottom: -30px;
-        right: 50px;
-        width: 70px;
-        height: 70px;
-        background: radial-gradient(circle, #a52a2a 0%, #8b1a1a 100%);
-        border-radius: 50%;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-        animation: sealPulse 2s ease-in-out infinite;
-    }
+  .frame:before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: conic-gradient(from 180deg, transparent, rgba(212,175,55,0.45), transparent);
+    filter: blur(18px);
+    opacity: 0.35;
+    animation: halo 6s linear infinite;
+  }
 
-    @keyframes sealPulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
+  @keyframes halo {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-    /* Bordas Florais */
-    .floral-corner {
-        position: absolute;
-        font-size: 50px;
-        opacity: 0.6;
-        color: #8b9d83;
-    }
-    .corner-tl { top: 10px; left: 10px; }
-    .corner-tr { top: 10px; right: 10px; transform: scaleX(-1); }
-    .corner-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
-    .corner-br { bottom: 10px; right: 10px; transform: scale(-1); }
+  .frame > * { position: relative; z-index: 1; }
 
-    /* Título Manuscrito */
-    .handwritten-title {
-        font-family: 'Dancing Script', cursive;
-        font-size: 65px;
-        color: #5d4e37;
-        text-align: center;
-        margin-bottom: 10px;
-        font-weight: 700;
-        text-shadow: 2px 2px 0px rgba(139, 157, 131, 0.2);
-    }
+  .kicker {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(212,175,55,0.95);
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
 
-    /* Subtítulo */
-    .subtitle {
-        font-family: 'Crimson Text', serif;
-        font-size: 20px;
-        color: #8b9d83;
-        text-align: center;
-        font-style: italic;
-        margin-bottom: 40px;
-        letter-spacing: 2px;
-    }
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    text-align: center;
+    margin: 0;
+    line-height: 1.05;
+  }
 
-    /* Texto da Carta */
-    .letter-text {
-        font-family: 'Crimson Text', serif;
-        font-size: 19px;
-        line-height: 1.9;
-        color: #3d3d3d;
-        text-align: justify;
-        margin-bottom: 30px;
-        text-indent: 40px;
-    }
+  .subtitle {
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    color: rgba(244,244,246,0.80);
+    margin-top: 10px;
+    font-size: 16px;
+  }
 
-    .letter-text strong {
-        color: #a52a2a;
-        font-weight: 600;
-    }
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.6), transparent);
+    margin: 22px 0;
+  }
 
-    /* Assinatura */
-    .signature {
-        font-family: 'Dancing Script', cursive;
-        font-size: 32px;
-        color: #5d4e37;
-        text-align: right;
-        margin-top: 40px;
-        font-weight: 400;
-    }
+  .body {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: rgba(244,244,246,0.86);
+  }
 
-    /* Envelope (Para Interação) */
-    .envelope-container {
-        text-align: center;
-        margin: 50px 0;
-    }
+  .sig {
+    margin-top: 18px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: rgba(212,175,55,0.95);
+    text-align: right;
+  }
 
-    .envelope {
-        display: inline-block;
-        width: 200px;
-        height: 130px;
-        background: #e8dcc4;
-        border: 2px solid #8b9d83;
-        position: relative;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
+  /* Botões */
+  .stButton>button {
+    width: 100%;
+    background: transparent;
+    color: rgba(212,175,55,0.98);
+    border: 1px solid rgba(212,175,55,0.65);
+    border-radius: 999px;
+    padding: 14px 18px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    transition: all .25s ease;
+  }
+  .stButton>button:hover {
+    background: rgba(212,175,55,0.10);
+    border-color: rgba(212,175,55,0.95);
+    box-shadow: 0 0 26px rgba(212,175,55,0.18);
+    transform: translateY(-1px);
+  }
 
-    .envelope:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 0;
-        border-left: 100px solid transparent;
-        border-right: 100px solid transparent;
-        border-top: 65px solid #d4a5a5;
-    }
+  /* Selo "Premium" */
+  .seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    margin: 14px auto 0;
+    border: 1px solid rgba(212,175,55,0.75);
+    color: rgba(212,175,55,0.95);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    text-transform: uppercase;
+    background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), rgba(0,0,0,0));
+    box-shadow: inset 0 0 18px rgba(212,175,55,0.18);
+  }
 
-    /* Botão Vintage */
-    .stButton>button {
-        background-color: #8b9d83;
-        color: #fdfbf7;
-        border: 2px solid #5d4e37;
-        border-radius: 3px;
-        padding: 15px 40px;
-        font-family: 'Playfair Display', serif;
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-    }
-    .stButton>button:hover {
-        background-color: #5d4e37;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
+  .sealWrap { text-align:center; }
 
-    /* Divider Floral */
-    .floral-divider {
-        text-align: center;
-        font-size: 30px;
-        color: #8b9d83;
-        margin: 30px 0;
-        opacity: 0.5;
-    }
+  /* Confete elegante (CSS) */
+  .spark {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
 
+  .spark i {
+    position: absolute;
+    top: -10vh;
+    width: 2px;
+    height: 12vh;
+    background: linear-gradient(180deg, rgba(212,175,55,0), rgba(212,175,55,0.55), rgba(212,175,55,0));
+    opacity: 0.35;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(120vh); }
+  }
 </style>
-""", unsafe_allow_html=True)
 
-# --- CONTEÚDO ---
+<div class="deco-grid"></div>
 
-# Envelope (Intro)
-envelope_opened = False
-
-st.markdown('<div class="envelope-container">', unsafe_allow_html=True)
-st.markdown('<div class="envelope"></div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-st.write("")
-
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    if st.button("💌 Abrir Envelope"):
-        envelope_opened = True
-        st.balloons()
-
-if envelope_opened:
-    time.sleep(0.5)
-    
-    # Cartão Postal
-    st.markdown("""
-    <div class="postcard-container">
-        <!-- Selo -->
-        <div class="stamp">🌺</div>
-        
-        <!-- Lacre de Cera -->
-        <div class="wax-seal">♡</div>
-        
-        <!-- Cantos Florais -->
-        <div class="floral-corner corner-tl">🌿</div>
-        <div class="floral-corner corner-tr">🌿</div>
-        <div class="floral-corner corner-bl">🌿</div>
-        <div class="floral-corner corner-br">🌿</div>
-        
-        <!-- Conteúdo -->
-        <div class="handwritten-title">Querida Lis,</div>
-        <div class="subtitle">Em um dia tão especial</div>
-        
-        <div class="floral-divider">❀ ❀ ❀</div>
-        
-        <p class="letter-text">
-        Escrevo estas palavras com o coração cheio de gratidão por ter você em minha vida. 
-        Seu aniversário é um lembrete de que <strong>pessoas especiais merecem celebrações igualmente especiais</strong>.
-        </p>
-        
-        <p class="letter-text">
-        Que este novo ciclo lhe traga a serenidade de um jardim em flor, a força das raízes profundas 
-        e a beleza das pétalas que se abrem ao sol. Que cada dia seja repleto de pequenos milagres 
-        e grandes razões para sorrir.
-        </p>
-        
-        <p class="letter-text">
-        Você ilumina o mundo ao seu redor com sua presença única. 
-        Continue sendo essa <strong>pessoa extraordinária</strong> que tanto admiramos.
-        </p>
-        
-        <div class="floral-divider">✿</div>
-        
-        <div class="signature">Com carinho e os melhores votos,<br>Seu admirador secretário ♡</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.write("")
-    st.write("")
-    
-    # Botão Final
-    col1, col2, col3 = st.columns([1,2,1])
-    with col2:
-        if st.button("🌸 Guardar no Coração"):
-            st.success("✨ Mensagem guardada com carinho! Feliz Aniversário, Lis!")
-            st.markdown('<div style="text-align: center; font-size: 50px; margin-top: 20px;">🌻🌺🌹</div>', unsafe_allow_html=True)
-
-else:
-    st.markdown('<div style="text-align: center; color: #5d4e37; font-family: \'Crimson Text\', serif; font-size: 20px; margin-top: 20px;">Há uma mensagem especial esperando por você...</div>', unsafe_allow_html=True)
-
-# Rodapé
-st.write("")
-st.write("")
-st.markdown("""
-<div style="text-align: center; margin-top: 60px; color: rgba(93, 78, 55, 0.4); font-family: 'Crimson Text', serif; font-size: 12px;">
-    Handcrafted with love • 2025
+<div class="spark">
+  <i style="left: 10%; animation-duration: 3.8s; animation-delay: 0.2s;"></i>
+  <i style="left: 22%; animation-duration: 4.6s; animation-delay: 1.1s;"></i>
+  <i style="left: 35%; animation-duration: 5.2s; animation-delay: 0.6s;"></i>
+  <i style="left: 48%; animation-duration: 4.1s; animation-delay: 1.7s;"></i>
+  <i style="left: 60%; animation-duration: 5.8s; animation-delay: 0.9s;"></i>
+  <i style="left: 73%; animation-duration: 4.9s; animation-delay: 1.4s;"></i>
+  <i style="left: 86%; animation-duration: 6.2s; animation-delay: 0.3s;"></i>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+
+# Conteúdo
+st.markdown('<div class="kicker">Edição Comemorativa</div>', unsafe_allow_html=True)
+
+st.markdown(
+    """
+<div class="frame">
+  <h1 class="title">Lis</h1>
+  <div class="subtitle">Uma celebração à altura de um novo ciclo.</div>
+  <div class="divider"></div>
+</div>
+""",
+    unsafe_allow_html=True,
+)
+
+st.write("")
+
+c1, c2, c3 = st.columns([1, 2, 1])
+with c2:
+    if not st.session_state.opened:
+        if st.button("✨ Abrir Cartão"):
+            st.session_state.opened = True
+            st.toast("Cartão aberto.", icon="✨")
+
+if st.session_state.opened:
+    time.sleep(0.2)
+    st.markdown(
+        """
+<div class="frame">
+  <div class="kicker">Mensagem</div>
+  <div class="body">
+    Prezada Lis,<nobr></nobr><br><br>
+    Receba esta homenagem como um gesto de estima e reconhecimento. Que este aniversário marque o início de um período
+    de serenidade, realização e progresso consistente — daqueles que se constroem com propósito e constância.<br><br>
+    Que cada novo dia traga boas oportunidades, clareza nas decisões e a tranquilidade de quem sabe valorizar o que realmente importa.
+    <br><br>
+    Com respeito e sinceros votos de felicidades.
+  </div>
+
+  <div class="sealWrap"><div class="seal">Premium</div></div>
+  <div class="sig">— Felicitações</div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+    st.write("")
+    cc1, cc2, cc3 = st.columns([1, 2, 1])
+    with cc2:
+        if st.button("🥂 Celebrar"):
+            st.toast("Brinde a um novo ciclo.", icon="🥂")
+            st.balloons()
+            st.success("Feliz aniversário, Lis.")
+else:
+    st.markdown(
+        """
+<div style="text-align:center; font-family: Inter, sans-serif; color: rgba(244,244,246,0.70); margin-top: 10px;">
+  Um cartão elegante aguarda o próximo clique.
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+st.markdown(
+    """
+<div style="text-align:center; margin-top: 40px; font-family: Inter, sans-serif; font-size: 11px; letter-spacing: 0.18em; color: rgba(244,244,246,0.35);">
+  ART DÉCO EDITION • 2025
+</div>
+""",
+    unsafe_allow_html=True,
+)
