@@ -1,130 +1,133 @@
 import streamlit as st
 import time
-from datetime import date
 
 # Configuração da Página
 st.set_page_config(
-    page_title="Parabéns, Lis!",
-    page_icon="🎂",
+    page_title="Parabéns da Roça pra Lis! 🤠",
+    page_icon="🌻",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Estilização CSS Personalizada
+# Estilização CSS Personalizada (Tema Country/Rústico)
 st.markdown("""
 <style>
-    /* Fundo festivo */
+    @import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+    /* Fundo estilo madeira/rústico */
     .stApp {
-        background-image: linear-gradient(to right top, #fce4ec, #f8bbd0, #f48fb1);
+        background-color: #f4e1d2;
+        background-image: radial-gradient(#d7ccc8 1px, transparent 1px), radial-gradient(#d7ccc8 1px, transparent 1px);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
     }
     
     /* Título Principal */
     .title-text {
-        font-size: 60px !important;
-        color: #880E4F;
+        font-family: 'Rye', serif;
+        font-size: 50px !important;
+        color: #5D4037; /* Marrom café */
         text-align: center;
-        font-family: 'Helvetica', sans-serif;
-        font-weight: 900;
-        text-shadow: 2px 2px 4px #ce93d8;
-        animation: glow 1s ease-in-out infinite alternate;
-    }
-    
-    /* Animação do Texto */
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073;
-        }
-        to {
-            text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6;
-        }
-    }
-
-    /* Cartão de Mensagem */
-    .message-card {
-        background-color: rgba(255, 255, 255, 0.85);
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        text-align: center;
-        font-size: 22px;
-        color: #4A148C;
+        text-shadow: 2px 2px 0px #D7CCC8;
         margin-bottom: 20px;
     }
-
-    /* Botão Personalizado */
-    .stButton>button {
-        background-color: #AD1457;
-        color: white;
-        border-radius: 50px;
-        padding: 15px 30px;
+    
+    /* Cartão de Mensagem (estilo papel antigo) */
+    .message-card {
+        background-color: #fff8e1;
+        border: 2px dashed #8d6e63;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
         font-size: 20px;
-        border: none;
-        box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
+        color: #4e342e;
+        font-family: 'Courier Prime', monospace;
+    }
+
+    /* Botão Personalizado (estilo couro/madeira) */
+    .stButton>button {
+        background-color: #795548;
+        color: #fff8e1;
+        border: 2px solid #3e2723;
+        border-radius: 8px;
+        padding: 15px 30px;
+        font-family: 'Rye', serif;
+        font-size: 22px;
         width: 100%;
+        transition: transform 0.2s;
     }
     .stButton>button:hover {
-        background-color: #880E4F;
-        transform: scale(1.05);
+        background-color: #5d4037;
+        color: white;
+        transform: scale(1.02);
+        border-color: #fff;
+    }
+    
+    /* Estilo das Abas */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background-color: #efebe9;
+        border-radius: 4px;
+        color: #5d4037;
+        font-weight: bold;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #8d6e63;
+        color: white;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Função para efeito de digitação
-def typing_effect(text, speed=0.05):
-    placeholder = st.empty()
-    displayed_text = ""
-    for char in text:
-        displayed_text += char
-        placeholder.markdown(f'<div class="message-card">{displayed_text}▌</div>', unsafe_allow_html=True)
-        time.sleep(speed)
-    placeholder.markdown(f'<div class="message-card">{displayed_text}</div>', unsafe_allow_html=True)
-
 # Cabeçalho
-st.markdown('<p class="title-text">🎉 Feliz Aniversário, Lis! 🎉</p>', unsafe_allow_html=True)
+st.markdown('<p class="title-text">🤠 Feliz Aniversário, Lis! 🌻</p>', unsafe_allow_html=True)
 
-# Imagem de Capa (Placeholder - Substituir por foto real depois)
-# Dica: Substitua o link abaixo por uma foto dela no GitHub
-st.image("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm90eHhidjF6Ym14Y3Z5eW94YzF6Ym14Y3Z5eW94YzF6Ym14YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LfpjDCLnTeHYA/giphy.gif", caption="Um dia brilhante para uma pessoa brilhante!", use_column_width=True)
+# Imagem de Capa (Tema Country/Festa)
+# Dica: Substitua por uma foto dela com chapéu ou na fazenda!
+st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExam95OHJ0ZGd6ZmF4Z3F6Z3F6Z3F6Z3F6Z3F6Z3F6Z3F6ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LfpjDCLnTeHYA/giphy.gif", caption="Hoje o dia é todo seu, cowgirl!", use_column_width=True)
 
-st.write("") # Espaçamento
+st.write("") 
 
 # Conteúdo Interativo
-tab1, tab2, tab3 = st.tabs(["💌 Mensagem", "🎁 Surpresa", "🎶 Playlist"])
+tab1, tab2, tab3 = st.tabs(["📝 Prosa Boa", "🎁 Presente", "🎸 Modão Sertanejo"])
 
 with tab1:
     st.write("")
     st.markdown("""
     <div class="message-card">
-    Hoje o dia amanheceu mais bonito porque é o seu dia! 🌟<br><br>
-    Que este novo ciclo seja repleto de conquistas, sorrisos fáceis, 
-    viagens inesquecíveis e momentos que aquecem o coração.<br><br>
-    Você merece toda a felicidade do mundo!
+    <b>Minha querida Lis,</b><br><br>
+    Hoje a porteira da felicidade se abriu de par em par pra você! 🌾<br><br>
+    Que seu novo ano seja firme igual palanque de aroeira e doce igual compota de vó.
+    Que não falte café quente, conversa boa e gente de verdade ao seu lado.<br><br>
+    Você tem a força da terra e o brilho do sol. 
+    <b>Parabéns por ser essa mulher de fibra!</b><br><br>
+    🤠 ❤️ 🐎
     </div>
     """, unsafe_allow_html=True)
 
 with tab2:
     st.write("")
-    st.markdown("<h3 style='text-align: center; color: #880E4F;'>Tem um presente especial esperando...</h3>", unsafe_allow_html=True)
-    if st.button("🎂 ASSOPRAR AS VELAS 🎂"):
+    st.markdown("<h3 style='text-align: center; color: #5D4037; font-family: Rye;'>Segura peão, que tem surpresa!</h3>", unsafe_allow_html=True)
+    if st.button("💥 SOLTAR OS FOGUETE 💥"):
         st.balloons()
-        st.snow()
-        st.success("🎈✨ PARABÉNS!!! QUE SEUS DESEJOS SE REALIZEM! ✨🎈")
-        # Aqui viria um áudio se o Streamlit suportasse autoplay nativo fácil, 
-        # mas visualmente os balões já dão o impacto!
+        st.success("🎉 ÊTA LIS! MUITA SAÚDE, PAZ E ALEGRIA! 🎉")
         time.sleep(1)
         st.markdown("""
-        <div style='text-align: center; font-size: 50px;'>
-        👏👏👏👏👏👏👏👏
+        <div style='text-align: center; font-size: 24px; color: #4e342e; margin-top: 20px;'>
+        🐎 🐄 🚜 🌽 🐓<br>
+        <i>A fazenda inteira tá em festa pro cê!</i>
         </div>
         """, unsafe_allow_html=True)
 
 with tab3:
     st.write("")
-    st.info("Dê o play na trilha sonora do seu dia! (Exemplo do Spotify)")
-    # Embed do Spotify (Substituir pelo link da playlist dela)
-    st.components.v1.iframe("https://open.spotify.com/embed/playlist/37i9dQZF1DX1Nw33e9d7dO?utm_source=generator", height=380)
+    st.info("Aumenta o som que agora é hora do modão apaixonado!")
+    # Playlist Sertanejo Raiz/Modão (Link do Spotify)
+    st.components.v1.iframe("https://open.spotify.com/embed/playlist/37i9dQZF1DX0f93dbd2b9o?utm_source=generator", height=380)
 
 # Rodapé
 st.write("---")
-st.markdown("<div style='text-align: center; color: gray;'>Feito com ❤️ e Python</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; color: #6d4c41;'>Feito com carinho e Python 🐍🤠</div>", unsafe_allow_html=True)
