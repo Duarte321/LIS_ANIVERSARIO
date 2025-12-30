@@ -3,326 +3,289 @@ import time
 
 # Configuração da Página
 st.set_page_config(
-    page_title="Cosmic Journey - Lis",
-    page_icon="🚀",
-    layout="wide",
+    page_title="Para Lis ♡",
+    page_icon="🌸",
+    layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# --- CSS PARA O TEMA ESPACIAL ---
+# --- CSS TEMA VINTAGE BOTANICAL ---
 st.markdown("""
 <style>
-    /* Importando Fontes Futuristas */
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Raleway:wght@300;400;600&display=swap');
+    /* Importando Fontes */
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
 
-    /* Remover elementos padrão do Streamlit */
+    /* Ocultar elementos Streamlit */
     .stAppHeader, .stToolbar, #MainMenu, footer {
         visibility: hidden;
     }
-    .block-container {
-        padding-top: 0;
-        padding-bottom: 0;
-        max-width: 100%;
-    }
 
-    /* Fundo Cósmico */
+    /* Fundo Papel Antigo */
     .stApp {
-        background: linear-gradient(to bottom, #0a0e27 0%, #1a1147 50%, #2d1b69 100%);
-        overflow-x: hidden;
+        background-color: #f5f1e8;
+        background-image: 
+            repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px),
+            repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 4px);
     }
 
-    /* Camada de Estrelas (3 camadas para efeito parallax) */
-    .stars, .stars2, .stars3 {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
+    .block-container {
+        padding: 3rem 1rem;
+        max-width: 750px;
     }
 
-    .stars {
-        background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVQIW2P4//+/AwMDwz8AGZYC/Wl5sLkAAAAASUVORK5CYII=') repeat;
-        animation: animateStars 50s linear infinite;
-        opacity: 0.5;
-    }
-
-    .stars2 {
-        background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAEklEQVQIW2P4//+/AwMDwz8AGgQC/+3iqJ4AAAAASUVORK5CYII=') repeat;
-        animation: animateStars 100s linear infinite;
-        opacity: 0.3;
-    }
-
-    .stars3 {
-        background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P4////fwAJ+wP9BUNFygAAAABJRU5ErkJggg==') repeat;
-        animation: animateStars 150s linear infinite;
-        opacity: 0.7;
-    }
-
-    @keyframes animateStars {
-        from { transform: translateY(0px); }
-        to { transform: translateY(-2000px); }
-    }
-
-    /* Container Principal */
-    .cosmic-container {
+    /* Container Principal (Cartão Postal) */
+    .postcard-container {
+        background: linear-gradient(135deg, #fdfbf7 0%, #f5f1e8 100%);
+        border: 12px solid #8b9d83;
+        border-radius: 3px;
+        padding: 60px 50px;
+        box-shadow: 
+            0 10px 30px rgba(0,0,0,0.15),
+            inset 0 0 100px rgba(139, 157, 131, 0.05);
         position: relative;
-        min-height: 100vh;
+        margin: 40px auto;
+    }
+
+    /* Selo Vintage (Canto Superior Direito) */
+    .stamp {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 80px;
+        height: 100px;
+        background: linear-gradient(135deg, #d4a5a5 0%, #b88b8b 100%);
+        border: 3px dashed #5d4e37;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 40px 20px;
-        z-index: 10;
+        font-size: 40px;
+        transform: rotate(15deg);
+        opacity: 0.9;
     }
 
-    /* Título Principal com Brilho */
-    .cosmic-title {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 80px;
-        font-weight: 900;
-        color: #ffffff;
+    /* Lacre de Cera */
+    .wax-seal {
+        position: absolute;
+        bottom: -30px;
+        right: 50px;
+        width: 70px;
+        height: 70px;
+        background: radial-gradient(circle, #a52a2a 0%, #8b1a1a 100%);
+        border-radius: 50%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        animation: sealPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes sealPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    /* Bordas Florais */
+    .floral-corner {
+        position: absolute;
+        font-size: 50px;
+        opacity: 0.6;
+        color: #8b9d83;
+    }
+    .corner-tl { top: 10px; left: 10px; }
+    .corner-tr { top: 10px; right: 10px; transform: scaleX(-1); }
+    .corner-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+    .corner-br { bottom: 10px; right: 10px; transform: scale(-1); }
+
+    /* Título Manuscrito */
+    .handwritten-title {
+        font-family: 'Dancing Script', cursive;
+        font-size: 65px;
+        color: #5d4e37;
         text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 8px;
-        text-shadow: 
-            0 0 10px #00d9ff,
-            0 0 20px #00d9ff,
-            0 0 40px #00d9ff,
-            0 0 80px #00d9ff;
-        animation: pulse 2s ease-in-out infinite;
-        margin-bottom: 20px;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-shadow: 2px 2px 0px rgba(139, 157, 131, 0.2);
     }
 
     /* Subtítulo */
-    .cosmic-subtitle {
-        font-family: 'Raleway', sans-serif;
-        font-size: 24px;
-        color: #00d9ff;
+    .subtitle {
+        font-family: 'Crimson Text', serif;
+        font-size: 20px;
+        color: #8b9d83;
         text-align: center;
-        letter-spacing: 4px;
-        margin-bottom: 60px;
-        animation: fadeIn 3s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    /* Cartões de Estação Espacial */
-    .space-card {
-        background: rgba(26, 17, 71, 0.7);
-        backdrop-filter: blur(10px);
-        border: 2px solid rgba(0, 217, 255, 0.3);
-        border-radius: 20px;
-        padding: 50px 40px;
-        margin: 40px auto;
-        max-width: 700px;
-        text-align: center;
-        box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
-        animation: slideIn 1s ease-out;
-    }
-
-    @keyframes slideIn {
-        from { 
-            opacity: 0; 
-            transform: translateY(50px); 
-        }
-        to { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-    }
-
-    .space-card h3 {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 32px;
-        color: #00d9ff;
-        margin-bottom: 25px;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-    }
-
-    .space-card p {
-        font-family: 'Raleway', sans-serif;
-        font-size: 18px;
-        line-height: 1.8;
-        color: #e0e0e0;
-        font-weight: 300;
-    }
-
-    /* Foguete Animado */
-    .rocket {
-        position: fixed;
-        bottom: 100px;
-        right: 50px;
-        width: 60px;
-        height: 60px;
-        font-size: 60px;
-        animation: float 3s ease-in-out infinite, rotate 10s linear infinite;
-        z-index: 100;
-        filter: drop-shadow(0 0 10px #00d9ff);
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(10deg); }
-    }
-
-    @keyframes rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-
-    /* Botão Futurista */
-    .stButton>button {
-        background: linear-gradient(135deg, #00d9ff 0%, #5b2c6f 100%);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 18px 50px;
-        font-family: 'Orbitron', sans-serif;
-        font-size: 18px;
-        font-weight: 700;
-        text-transform: uppercase;
+        font-style: italic;
+        margin-bottom: 40px;
         letter-spacing: 2px;
-        box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+    }
+
+    /* Texto da Carta */
+    .letter-text {
+        font-family: 'Crimson Text', serif;
+        font-size: 19px;
+        line-height: 1.9;
+        color: #3d3d3d;
+        text-align: justify;
+        margin-bottom: 30px;
+        text-indent: 40px;
+    }
+
+    .letter-text strong {
+        color: #a52a2a;
+        font-weight: 600;
+    }
+
+    /* Assinatura */
+    .signature {
+        font-family: 'Dancing Script', cursive;
+        font-size: 32px;
+        color: #5d4e37;
+        text-align: right;
+        margin-top: 40px;
+        font-weight: 400;
+    }
+
+    /* Envelope (Para Interação) */
+    .envelope-container {
+        text-align: center;
+        margin: 50px 0;
+    }
+
+    .envelope {
+        display: inline-block;
+        width: 200px;
+        height: 130px;
+        background: #e8dcc4;
+        border: 2px solid #8b9d83;
+        position: relative;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .envelope:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 100px solid transparent;
+        border-right: 100px solid transparent;
+        border-top: 65px solid #d4a5a5;
+    }
+
+    /* Botão Vintage */
+    .stButton>button {
+        background-color: #8b9d83;
+        color: #fdfbf7;
+        border: 2px solid #5d4e37;
+        border-radius: 3px;
+        padding: 15px 40px;
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         transition: all 0.3s ease;
     }
     .stButton>button:hover {
-        box-shadow: 0 0 40px rgba(0, 217, 255, 0.8);
-        transform: scale(1.05);
+        background-color: #5d4e37;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    /* Planetas decorativos */
-    .planet {
-        position: fixed;
-        border-radius: 50%;
-        opacity: 0.6;
-        animation: orbit 20s linear infinite;
-    }
-
-    .planet1 {
-        width: 100px;
-        height: 100px;
-        background: radial-gradient(circle at 30% 30%, #ff6b9d, #c44569);
-        top: 15%;
-        right: 10%;
-    }
-
-    .planet2 {
-        width: 150px;
-        height: 150px;
-        background: radial-gradient(circle at 30% 30%, #00d9ff, #5b2c6f);
-        bottom: 20%;
-        left: 8%;
-        animation-duration: 30s;
-    }
-
-    @keyframes orbit {
-        0% { transform: rotate(0deg) translateX(20px) rotate(0deg); }
-        100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+    /* Divider Floral */
+    .floral-divider {
+        text-align: center;
+        font-size: 30px;
+        color: #8b9d83;
+        margin: 30px 0;
+        opacity: 0.5;
     }
 
 </style>
-
-<!-- Camadas de Estrelas -->
-<div class="stars"></div>
-<div class="stars2"></div>
-<div class="stars3"></div>
-
-<!-- Planetas Decorativos -->
-<div class="planet planet1"></div>
-<div class="planet planet2"></div>
-
-<!-- Foguete Flutuante -->
-<div class="rocket">🚀</div>
-
 """, unsafe_allow_html=True)
 
-# --- CONTEÚDO PRINCIPAL ---
+# --- CONTEÚDO ---
 
-st.markdown('<div class="cosmic-container">', unsafe_allow_html=True)
+# Envelope (Intro)
+envelope_opened = False
 
-# Título Principal
-st.markdown('<div class="cosmic-title">LIS</div>', unsafe_allow_html=True)
-st.markdown('<div class="cosmic-subtitle">Uma Jornada Cósmica de Celebração</div>', unsafe_allow_html=True)
-
-st.write("")
-
-# Botão de Iniciar Jornada
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    start_journey = st.button("🚀 INICIAR JORNADA")
-
-if start_journey:
-    st.balloons()
-    time.sleep(0.5)
-
-st.write("")
-st.write("")
-
-# Estação 1: O Início
-st.markdown("""
-<div class="space-card">
-    <h3>🌌 Estação 1: Origem</h3>
-    <p>
-    Cada jornada começa com um ponto de partida. Hoje celebramos não apenas mais um ano, 
-    mas a continuída expansão do seu universo pessoal. Você é a arquiteta da sua própria galáxia.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# Estação 2: A Jornada
-st.markdown("""
-<div class="space-card">
-    <h3>✨ Estação 2: Crescimento</h3>
-    <p>
-    Como estrelas que nascem de poeira cósmica, você se transforma constantemente. 
-    Cada desafio superado é uma nova constelação no céu da sua história. 
-    Sua luz brilha mais forte a cada ciclo.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# Estação 3: O Futuro
-st.markdown("""
-<div class="space-card">
-    <h3>🌠 Estação 3: Infinito</h3>
-    <p>
-    O futuro é vasto como o cosmos. Que este novo ano lhe traga descobertas extraordinárias, 
-    paz interior e a certeza de que você é capaz de alcançar qualquer horizonte. 
-    <strong>Feliz Aniversário, Lis.</strong>
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-st.write("")
-st.write("")
-
-# Mensagem Final Interativa
-col1, col2, col3 = st.columns([1,2,1])
-with col2:
-    if st.button("✨ CELEBRAR MOMENTO"):
-        st.snow()
-        st.success("🎉 Que a força do universo esteja sempre com você!")
-        st.markdown("""
-        <div style="text-align: center; font-size: 50px; margin-top: 20px; animation: fadeIn 2s;">
-        🌌🚀✨🌠
-        </div>
-        """, unsafe_allow_html=True)
-
+st.markdown('<div class="envelope-container">', unsafe_allow_html=True)
+st.markdown('<div class="envelope"></div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
+st.write("")
+
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    if st.button("💌 Abrir Envelope"):
+        envelope_opened = True
+        st.balloons()
+
+if envelope_opened:
+    time.sleep(0.5)
+    
+    # Cartão Postal
+    st.markdown("""
+    <div class="postcard-container">
+        <!-- Selo -->
+        <div class="stamp">🌺</div>
+        
+        <!-- Lacre de Cera -->
+        <div class="wax-seal">♡</div>
+        
+        <!-- Cantos Florais -->
+        <div class="floral-corner corner-tl">🌿</div>
+        <div class="floral-corner corner-tr">🌿</div>
+        <div class="floral-corner corner-bl">🌿</div>
+        <div class="floral-corner corner-br">🌿</div>
+        
+        <!-- Conteúdo -->
+        <div class="handwritten-title">Querida Lis,</div>
+        <div class="subtitle">Em um dia tão especial</div>
+        
+        <div class="floral-divider">❀ ❀ ❀</div>
+        
+        <p class="letter-text">
+        Escrevo estas palavras com o coração cheio de gratidão por ter você em minha vida. 
+        Seu aniversário é um lembrete de que <strong>pessoas especiais merecem celebrações igualmente especiais</strong>.
+        </p>
+        
+        <p class="letter-text">
+        Que este novo ciclo lhe traga a serenidade de um jardim em flor, a força das raízes profundas 
+        e a beleza das pétalas que se abrem ao sol. Que cada dia seja repleto de pequenos milagres 
+        e grandes razões para sorrir.
+        </p>
+        
+        <p class="letter-text">
+        Você ilumina o mundo ao seu redor com sua presença única. 
+        Continue sendo essa <strong>pessoa extraordinária</strong> que tanto admiramos.
+        </p>
+        
+        <div class="floral-divider">✿</div>
+        
+        <div class="signature">Com carinho e os melhores votos,<br>Seu admirador secretário ♡</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("")
+    st.write("")
+    
+    # Botão Final
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        if st.button("🌸 Guardar no Coração"):
+            st.success("✨ Mensagem guardada com carinho! Feliz Aniversário, Lis!")
+            st.markdown('<div style="text-align: center; font-size: 50px; margin-top: 20px;">🌻🌺🌹</div>', unsafe_allow_html=True)
+
+else:
+    st.markdown('<div style="text-align: center; color: #5d4e37; font-family: \'Crimson Text\', serif; font-size: 20px; margin-top: 20px;">Há uma mensagem especial esperando por você...</div>', unsafe_allow_html=True)
+
 # Rodapé
+st.write("")
+st.write("")
 st.markdown("""
-<div style="text-align: center; margin-top: 100px; padding: 20px; color: rgba(255,255,255,0.3); font-family: 'Raleway', sans-serif; font-size: 12px;">
-    COSMIC CELEBRATION CARD • 2025 • POWERED BY IMAGINATION
+<div style="text-align: center; margin-top: 60px; color: rgba(93, 78, 55, 0.4); font-family: 'Crimson Text', serif; font-size: 12px;">
+    Handcrafted with love • 2025
 </div>
 """, unsafe_allow_html=True)
